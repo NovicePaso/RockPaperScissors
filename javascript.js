@@ -1,24 +1,15 @@
 const CHOICES = ["Rock", "Paper", "Scissors"];
 var computerSelection = "";
-var playerInput = "";
 var playerSelection = "";
 var result = "";
+let computerScore = 0;
+let playerScore = 0;
 
-// gets player choice from a prompt
-// case insensitive
-function getPlayerChoice(){
-    playerInput = prompt("Choose between Rock, Paper, and Scissors: ");
-    return playerSelection = playerInput.charAt(0).toUpperCase() + playerInput.slice(1).toLowerCase();
-}
-
-// gets computer choice from a rounded random integer between 0-3
-// associates integer to CHOICES array
 function getComputerChoice(){
     return computerSelection = CHOICES[Math.floor(Math.random()*3)];
 }
 
 // establishes win, lose, and tie conditions
-// takes 2 arguments: the player's selection and computer's random selection
 function playRound(playerSelection, computerSelection){
     if(playerSelection == "Rock" && computerSelection == "Paper" ||
     playerSelection == "Paper" && computerSelection == "Scissors" ||
@@ -35,13 +26,32 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
-// calls funtions and plays 5 rounds
-function game(){
-    for(let i = 0; i < 5; i++){  
-    console.log(getComputerChoice());
-    console.log(getPlayerChoice());
-    console.log(playRound(playerSelection,computerSelection));
-}
-}
+// assigns button functions and DOM elements
+const button = document.querySelectorAll('button');
+button.forEach((button) => {
+    button.addEventListener('click', () => {
+        playerSelection = button.id;
+        console.log(playerSelection);
+        document.querySelector('#playerChoice').innerText = `You chose: ${playerSelection}`;
 
-game();
+        getComputerChoice();
+        console.log(computerSelection);
+        document.querySelector('#computerChoice').innerText = `Computer chose: ${computerSelection}`;
+
+        playRound(playerSelection, computerSelection);
+        console.log(result);
+        document.querySelector('#resultStatement').innerText = `${result}`;
+
+        let resultArray = result.split(" ");
+        if (resultArray[1] === "Lose!"){
+            computerScore ++;
+            console.log(computerScore);
+            document.querySelector('#computerScore').innerText = `${computerScore}`;
+        }
+        else if (resultArray[1] === "Win!"){
+            playerScore ++;
+            console.log(playerScore);
+            document.querySelector('#playerScore').innerText = `${playerScore}`;
+        }
+    })
+})
