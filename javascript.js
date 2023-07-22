@@ -2,8 +2,8 @@ const CHOICES = ["Rock", "Paper", "Scissors"];
 var computerSelection = "";
 var playerSelection = "";
 var result = "";
-let computerScore = 0;
 let playerScore = 0;
+let computerScore = 0;
 
 function getComputerChoice(){
     return computerSelection = CHOICES[Math.floor(Math.random()*3)];
@@ -26,6 +26,13 @@ function playRound(playerSelection, computerSelection){
     }
 }
 
+function resetScore(){
+    playerScore = 0;
+    computerScore = 0;
+    document.querySelector('#computerScore').innerText = `${computerScore}`;
+    document.querySelector('#playerScore').innerText = `${playerScore}`;
+}
+
 // assigns button functions and DOM elements
 const button = document.querySelectorAll('button');
 button.forEach((button) => {
@@ -42,16 +49,31 @@ button.forEach((button) => {
         console.log(result);
         document.querySelector('#resultStatement').innerText = `${result}`;
 
+        // keeps track of score
         let resultArray = result.split(" ");
         if (resultArray[1] === "Lose!"){
             computerScore ++;
-            console.log(computerScore);
             document.querySelector('#computerScore').innerText = `${computerScore}`;
         }
         else if (resultArray[1] === "Win!"){
             playerScore ++;
-            console.log(playerScore);
             document.querySelector('#playerScore').innerText = `${playerScore}`;
         }
-    })
+        console.log(playerScore);
+        console.log(computerScore);
+
+
+        // establishes overall win condition
+        if (playerScore == 5){
+            document.querySelector('#resultStatement').innerText = "The Humans Win!";
+            resetScore();
+        }
+        else if (computerScore == 5){
+            document.querySelector('#resultStatement').innerText = "The Computers Win!"; 
+            resetScore();
+         }
 })
+})
+
+
+
